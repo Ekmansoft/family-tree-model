@@ -11,6 +11,11 @@ export interface TreeBackend {
     addNewFamily(family: Family) : FamilyLink;
     addNewProfile(profile: Profile) : ProfileLink;
 
+    addParentToFamily(familyLink: FamilyLink, profileLink: ProfileLink) : boolean;
+    addChildToFamily(familyLink: FamilyLink, profileLink: ProfileLink) : boolean;
+    removeParentFromFamily(familyLink: FamilyLink, profileLink: ProfileLink) : boolean;
+    removeChildFromFamily(familyLink: FamilyLink, profileLink: ProfileLink) : boolean;
+
     findProfile(profileLink: ProfileLink) : Profile|undefined;
     findFamily(familyLink: FamilyLink) : Family|undefined;
 

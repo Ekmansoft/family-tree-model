@@ -2,9 +2,9 @@ import { FamilyLink } from './family-link';
 import { ProfileLink } from './profile-link';
 
 export class Family {
-    constructor(id: FamilyLink, name: string, )
+    constructor()
     {
-        this.familyId = id;
+        this.familyId = new FamilyLink("");
         this.marriageDate = "";
         this.marriagePlace = "";
         this.parents = [];

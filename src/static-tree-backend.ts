@@ -17,7 +17,6 @@ export class StaticTreeBackend implements TreeBackend {
         this.nextProfileId++
         let linkId = "P" + this.nextProfileId.toString(10);
         return new ProfileLink(linkId);
-
     }
 
     createNewFamilyLink() : FamilyLink {
@@ -48,6 +47,21 @@ export class StaticTreeBackend implements TreeBackend {
 
     updateProfile(profile: Profile) : boolean
     {
+        if (profile.profileId.isValid()) {
+            let thisId = profile.profileId;
+            let thisProfile = this.findProfile(thisId);
+            if (thisProfile != null) {
+                if (thisProfile.childFamilies != null) {
+                    thisProfile.childFamilies = profile.childFamilies;
+                }
+                if (thisProfile.parentFamilies != null) {
+                    thisProfile.parentFamilies = profile.parentFamilies;
+                }
+                this.profileMap.set(thisId.link, thisProfile);
+
+                return true;
+            }
+        }
         return false;
     }
 
@@ -68,6 +82,138 @@ export class StaticTreeBackend implements TreeBackend {
         this.profileMap.set(profile.profileId.link, profile);
         return profile.profileId;
     }
+
+    addParentToFamily(familyLink: FamilyLink, profileLink: ProfileLink) : boolean
+    {
+        let profile = this.findProfile(profileLink);
+        let family = this.findFamily(familyLink);
+
+        if ((profile != undefined) && (family != undefined))  {
+            if (profile.parentFamilies.length > 0) {
+                profile.parentFamilies.forEach(element => {
+                    if (element.link == familyLink.link) {
+                        return false;
+                    }
+                });
+            }
+            if (family.parents.length > 0) {
+                family.parents.forEach(element => {
+                    if (element.link == profileLink.link) {
+                        return false;
+                    }
+                });
+            }
+            profile.parentFamilies.push(familyLink);
+            family.parents.push(profileLink);
+            let result1 = this.updateProfile(profile);
+            let result2 = this.updateFamily(family);
+            return result1 && result2;
+        }
+        return false;
+    }
+    addChildToFamily(familyLink: FamilyLink, profileLink: ProfileLink) : boolean
+    {
+        let profile = this.findProfile(profileLink);
+        let family = this.findFamily(familyLink);
+
+        if ((profile != undefined) && (family != undefined))  {
+            if (profile.childFamilies.length > 0) {
+                profile.childFamilies.forEach(element => {
+                    if (element.link == familyLink.link) {
+                        return false;
+                    }
+                });
+            }
+            if (family.children.length > 0) {
+                family.children.forEach(element => {
+                    if (element.link == profileLink.link) {
+                        return false;
+                    }
+                });
+            }
+            profile.childFamilies.push(familyLink);
+            family.children.push(profileLink);
+            let result1 = this.updateProfile(profile);
+            let result2 = this.updateFamily(family);
+            return result1 && result2;
+        }
+        return false;
+    }
+
+    removeParentFromFamily(familyLink: FamilyLink, profileLink: ProfileLink) : boolean
+    {
+        let profile = this.findProfile(profileLink);
+        let family = this.findFamily(familyLink);
+
+        if ((profile != undefined) && (family != undefined))  {
+            let profileLinkIx = -1;
+            let familyLinkIx = -1;
+            if (profile.parentFamilies.length > 0) {
+                let ix = 0;
+                profile.parentFamilies.forEach(element => {
+                    if (element.link == familyLink.link) {
+                        profileLinkIx = ix;
+                    }
+                    ix++;
+                });
+            }
+            if (family.parents.length > 0) {
+                let ix = 0;
+                family.parents.forEach(element => {
+                    if (element.link == profileLink.link) {
+                        familyLinkIx = ix;
+                    }
+                    ix++;
+                });
+            }
+            if ((profileLinkIx >= 0) && (familyLinkIx >= 0)) {
+                profile.parentFamilies.splice(profileLinkIx, 1);
+                family.parents.splice(familyLinkIx, 1); 
+                let result1 = this.updateProfile(profile);
+                let result2 = this.updateFamily(family);
+                return result1 && result2;
+                }
+        }
+        return false;
+    }
+
+    removeChildFromFamily(familyLink: FamilyLink, profileLink: ProfileLink) : boolean
+    {
+        let profile = this.findProfile(profileLink);
+        let family = this.findFamily(familyLink);
+
+        if ((profile != undefined) && (family != undefined))  {
+            let profileLinkIx = -1;
+            let familyLinkIx = -1;
+            if (profile.childFamilies.length > 0) {
+                let ix = 0;
+                profile.childFamilies.forEach(element => {
+                    if (element.link == familyLink.link) {
+                        profileLinkIx = ix;
+                    }
+                    ix++;
+                });
+            }
+            if (family.children.length > 0) {
+                let ix = 0;
+                family.children.forEach(element => {
+                    if (element.link == profileLink.link) {
+                        familyLinkIx = ix;
+                    }
+                    ix++;
+                });
+            }
+            if ((profileLinkIx >= 0) && (familyLinkIx >= 0)) {
+                profile.childFamilies.splice(profileLinkIx, 1);
+                family.children.splice(familyLinkIx, 1); 
+                let result1 = this.updateProfile(profile);
+                let result2 = this.updateFamily(family);
+                return result1 && result2;
+                }
+        }
+        return false;
+    }
+
 
     findProfile(profileLink: ProfileLink) : Profile|undefined
     {
