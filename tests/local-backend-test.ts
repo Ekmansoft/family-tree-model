@@ -1,5 +1,5 @@
 import {  Profile, ProfileLink, Family, FamilyLink, TreeBackend  } from '../src/index';
-import { StaticTreeBackend } from '../src/static-tree-backend';
+import { LocalTreeBackend } from '../src/local-tree-backend';
 import { expect } from 'chai';
 import 'mocha';
 
@@ -19,7 +19,7 @@ function createProfile(name: string,
 }
 
 describe('verify tree', () => {
-    let tree = new StaticTreeBackend();
+    let tree = new LocalTreeBackend();
 
     let profile1 = undefined;
     let profile2 = undefined;

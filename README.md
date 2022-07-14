@@ -80,3 +80,9 @@ sets of parents. This is very useful when a child has both biological parents an
 foster parents for example.
 
 Cases where parents have children with multiple partners are also handled with ease.
+
+# Support for different backends
+
+The data model is also intended to be flexible enough to be usable both for local family trees, decoded from
+a GEDCOM file for example, and trees that are kept remotely (such as Geni.com).
+This can be done by implementing a backend for each tree type.

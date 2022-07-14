@@ -4,7 +4,7 @@ import { Family } from './family';
 import { Profile } from './profile';
 import { TreeBackend } from './tree-backend';
 
-export class StaticTreeBackend implements TreeBackend {
+export class LocalTreeBackend implements TreeBackend {
     constructor() {
         this.backendName = "static";
         this.nextProfileId = 0;
