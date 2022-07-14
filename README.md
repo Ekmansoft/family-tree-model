@@ -54,8 +54,8 @@ Here is an example how it can look in a family with two parents and one child, a
 
 ``` mermaid
   graph TD;
-      grandMother1(Mother's mother):::ProfileClass-->|parentInFamily|grandParentFamily1[Family where mother grew up];
-      grandFather1(Mother's father):::ProfileClass-->|parentInFamily|grandParentFamily1(Family where mother grew up);
+      grandMother1(Mother's mother):::ProfileClass-->|parentInFamilies|grandParentFamily1[Family where mother grew up];
+      grandFather1(Mother's father):::ProfileClass-->|parentInFamilies|grandParentFamily1(Family where mother grew up);
       grandParentFamily1:::FamilyClass-->|parents|grandMother1:::ProfileClass;
       grandParentFamily1-->|parents|grandFather1;
       grandParentFamily1-->|children|motherProfile1:::ProfileClass;
@@ -70,10 +70,11 @@ Here is an example how it can look in a family with two parents and one child, a
       classDef ProfileClass fill:#3f3,color:#000,stroke-width:4px,stroke-dasharray:5
 ```
 
-If this looks complicated to you, yes, it is a bit complicated, but family relations are complicated, so these data structures need to be a bit complicated too... ;-)
+If this looks complicated to you, yes, it is a bit complicated, but family relations are
+complicated, so these data structures need to be a bit complicated too... ;-)
 
-The model is flexible enough to also handle special cases such as where a child has
-multple sets of parents. This is very useful when a child has both biological parents and
+The model is flexible enough to handle special cases such as where a child has multiple
+sets of parents. This is very useful when a child has both biological parents and
 foster parents for example.
 
 Cases where parents have children with multiple partners are also handled with ease.
