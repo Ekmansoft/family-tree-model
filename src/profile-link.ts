@@ -1,9 +1,9 @@
 export class ProfileLink {
     constructor(link: string) {
-        this.link = link;
+        this.profileId = link;
     }
     isValid() : boolean {
-        return (this.link != null) && (this.link.length > 0);
+        return (this.profileId != null) && (this.profileId.length > 0);
     }
-    link: string;
+    profileId: string;
 };

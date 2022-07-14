@@ -1,10 +1,10 @@
 export class FamilyLink {
     constructor(link: string) {
-        this.link = link;
+        this.familyId = link;
     }
     isValid() : boolean {
-        return (this.link != null) && (this.link.length > 0);
+        return (this.familyId != null) && (this.familyId.length > 0);
     }
-    link: string;
+    familyId: string;
 }
 

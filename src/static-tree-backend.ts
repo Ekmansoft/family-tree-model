@@ -37,7 +37,7 @@ export class StaticTreeBackend implements TreeBackend {
                 if (family.parents != null) {
                     thisFamily.parents = family.parents;
                 }
-                this.familyMap.set(thisId.link, thisFamily);
+                this.familyMap.set(thisId.familyId, thisFamily);
 
                 return true;
             }
@@ -51,13 +51,13 @@ export class StaticTreeBackend implements TreeBackend {
             let thisId = profile.profileId;
             let thisProfile = this.findProfile(thisId);
             if (thisProfile != null) {
-                if (thisProfile.childFamilies != null) {
-                    thisProfile.childFamilies = profile.childFamilies;
+                if (thisProfile.childInFamilies != null) {
+                    thisProfile.childInFamilies = profile.childInFamilies;
                 }
-                if (thisProfile.parentFamilies != null) {
-                    thisProfile.parentFamilies = profile.parentFamilies;
+                if (thisProfile.spouseInFamilies != null) {
+                    thisProfile.spouseInFamilies = profile.spouseInFamilies;
                 }
-                this.profileMap.set(thisId.link, thisProfile);
+                this.profileMap.set(thisId.profileId, thisProfile);
 
                 return true;
             }
@@ -70,7 +70,7 @@ export class StaticTreeBackend implements TreeBackend {
         if (!family.familyId.isValid()) {
             family.familyId = this.createNewFamilyLink();
         }
-        this.familyMap.set(family.familyId.link, family);
+        this.familyMap.set(family.familyId.familyId, family);
         return family.familyId;
     }
 
@@ -79,7 +79,7 @@ export class StaticTreeBackend implements TreeBackend {
         if (!profile.profileId.isValid()) {
             profile.profileId = this.createNewProfileLink();
         }
-        this.profileMap.set(profile.profileId.link, profile);
+        this.profileMap.set(profile.profileId.profileId, profile);
         return profile.profileId;
     }
 
@@ -89,21 +89,21 @@ export class StaticTreeBackend implements TreeBackend {
         let family = this.findFamily(familyLink);
 
         if ((profile != undefined) && (family != undefined))  {
-            if (profile.parentFamilies.length > 0) {
-                profile.parentFamilies.forEach(element => {
-                    if (element.link == familyLink.link) {
+            if (profile.spouseInFamilies.length > 0) {
+                profile.spouseInFamilies.forEach(element => {
+                    if (element.familyId == familyLink.familyId) {
                         return false;
                     }
                 });
             }
             if (family.parents.length > 0) {
                 family.parents.forEach(element => {
-                    if (element.link == profileLink.link) {
+                    if (element.profileId == profileLink.profileId) {
                         return false;
                     }
                 });
             }
-            profile.parentFamilies.push(familyLink);
+            profile.spouseInFamilies.push(familyLink);
             family.parents.push(profileLink);
             let result1 = this.updateProfile(profile);
             let result2 = this.updateFamily(family);
@@ -117,21 +117,21 @@ export class StaticTreeBackend implements TreeBackend {
         let family = this.findFamily(familyLink);
 
         if ((profile != undefined) && (family != undefined))  {
-            if (profile.childFamilies.length > 0) {
-                profile.childFamilies.forEach(element => {
-                    if (element.link == familyLink.link) {
+            if (profile.childInFamilies.length > 0) {
+                profile.childInFamilies.forEach(element => {
+                    if (element.familyId == familyLink.familyId) {
                         return false;
                     }
                 });
             }
             if (family.children.length > 0) {
                 family.children.forEach(element => {
-                    if (element.link == profileLink.link) {
+                    if (element.profileId == profileLink.profileId) {
                         return false;
                     }
                 });
             }
-            profile.childFamilies.push(familyLink);
+            profile.childInFamilies.push(familyLink);
             family.children.push(profileLink);
             let result1 = this.updateProfile(profile);
             let result2 = this.updateFamily(family);
@@ -148,10 +148,10 @@ export class StaticTreeBackend implements TreeBackend {
         if ((profile != undefined) && (family != undefined))  {
             let profileLinkIx = -1;
             let familyLinkIx = -1;
-            if (profile.parentFamilies.length > 0) {
+            if (profile.spouseInFamilies.length > 0) {
                 let ix = 0;
-                profile.parentFamilies.forEach(element => {
-                    if (element.link == familyLink.link) {
+                profile.spouseInFamilies.forEach(element => {
+                    if (element.familyId == familyLink.familyId) {
                         profileLinkIx = ix;
                     }
                     ix++;
@@ -160,15 +160,15 @@ export class StaticTreeBackend implements TreeBackend {
             if (family.parents.length > 0) {
                 let ix = 0;
                 family.parents.forEach(element => {
-                    if (element.link == profileLink.link) {
+                    if (element.profileId == profileLink.profileId) {
                         familyLinkIx = ix;
                     }
                     ix++;
                 });
             }
             if ((profileLinkIx >= 0) && (familyLinkIx >= 0)) {
-                profile.parentFamilies.splice(profileLinkIx, 1);
-                family.parents.splice(familyLinkIx, 1); 
+                profile.spouseInFamilies.splice(profileLinkIx, 1);
+                family.parents.splice(familyLinkIx, 1);
                 let result1 = this.updateProfile(profile);
                 let result2 = this.updateFamily(family);
                 return result1 && result2;
@@ -185,10 +185,10 @@ export class StaticTreeBackend implements TreeBackend {
         if ((profile != undefined) && (family != undefined))  {
             let profileLinkIx = -1;
             let familyLinkIx = -1;
-            if (profile.childFamilies.length > 0) {
+            if (profile.childInFamilies.length > 0) {
                 let ix = 0;
-                profile.childFamilies.forEach(element => {
-                    if (element.link == familyLink.link) {
+                profile.childInFamilies.forEach(element => {
+                    if (element.familyId == familyLink.familyId) {
                         profileLinkIx = ix;
                     }
                     ix++;
@@ -197,15 +197,15 @@ export class StaticTreeBackend implements TreeBackend {
             if (family.children.length > 0) {
                 let ix = 0;
                 family.children.forEach(element => {
-                    if (element.link == profileLink.link) {
+                    if (element.profileId == profileLink.profileId) {
                         familyLinkIx = ix;
                     }
                     ix++;
                 });
             }
             if ((profileLinkIx >= 0) && (familyLinkIx >= 0)) {
-                profile.childFamilies.splice(profileLinkIx, 1);
-                family.children.splice(familyLinkIx, 1); 
+                profile.childInFamilies.splice(profileLinkIx, 1);
+                family.children.splice(familyLinkIx, 1);
                 let result1 = this.updateProfile(profile);
                 let result2 = this.updateFamily(family);
                 return result1 && result2;
@@ -218,7 +218,7 @@ export class StaticTreeBackend implements TreeBackend {
     findProfile(profileLink: ProfileLink) : Profile|undefined
     {
         let thisId = profileLink;
-        let thisProfile = this.profileMap.get(thisId.link);
+        let thisProfile = this.profileMap.get(thisId.profileId);
 
         return thisProfile;
     }
@@ -226,7 +226,7 @@ export class StaticTreeBackend implements TreeBackend {
     findFamily(familyLink: FamilyLink) : Family|undefined
     {
         let thisId = familyLink;
-        let thisFamily = this.familyMap.get(thisId.link);
+        let thisFamily = this.familyMap.get(thisId.familyId);
         return thisFamily;
     }
 
