@@ -1,4 +1,4 @@
-# family-tree-model
+# simple-family-tree-model
 A data model for genealogy family trees
 
 
