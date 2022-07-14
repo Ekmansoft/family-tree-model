@@ -29,18 +29,18 @@ describe('verify tree', () => {
         //Arrange
         let newProfile1 = createProfile("Kalle Andersson", "19010101", "Umeå, Sweden", "19610101", "Vännäs, Sweden");
 
-        expect(newProfile1.profileId.profileId).to.equal("");
+        expect(newProfile1.getProfileLink().profileId).to.equal("");
 
 
         let newProfileId = tree.addNewProfile(newProfile1);
         // Act
-        expect(newProfileId.profileId).to.equal("P1");
+        expect(newProfileId?.profileId).to.equal("P1");
     })
     it('Add second profile to tree ', () => {
         //Arrange
         let newProfile2 = createProfile("Karin Andersson", "19020202", "Umeå, Sweden", "19620202", "Vännäs, Sweden");
 
-        expect(newProfile2.profileId.profileId).to.equal("");
+        expect(newProfile2.getProfileLink().profileId).to.equal("");
 
 
         let newProfileId = tree.addNewProfile(newProfile2);
@@ -54,16 +54,16 @@ describe('verify tree', () => {
         profile1 = tree.findProfile(new ProfileLink("P1"));
 
         // Assert
-        expect(profile1?.profileId.profileId).to.equal("P1");
-        expect(profile1?.name).to.equal("Kalle Andersson");
+        expect(profile1?.getProfileLink().profileId).to.equal("P1");
+        expect(profile1?.getFullName()).to.equal("Kalle Andersson");
 
     })
     it('Find second profile ', () => {
         profile2 = tree.findProfile(new ProfileLink("P2"));
 
         // Assert
-        expect(profile2?.profileId.profileId).to.equal("P2");
-        expect(profile2?.name).to.equal("Karin Andersson");
+        expect(profile2?.getProfileLink().profileId).to.equal("P2");
+        expect(profile2?.getFullName()).to.equal("Karin Andersson");
 
     })
     it('Find invalid profile ', () => {
@@ -86,7 +86,7 @@ describe('verify tree', () => {
         //Arrange
         family1 = tree.findFamily(new FamilyLink("F1"));
 
-        expect(family1?.familyId.familyId).to.equal("F1");
+        expect(family1?.getFamilyLink().familyId).to.equal("F1");
     })
     it('Add parent 1 to family ', () => {
         //Arrange
@@ -110,15 +110,15 @@ describe('verify tree', () => {
 
             if (family2 != undefined) {
 
-                expect(family2.parents.length).to.equal(1);
+                expect(family2.getParentProfileLinks().length).to.equal(1);
 
-                expect(family2.parents[0].profileId).to.equal("P1");
+                expect(family2.getParentProfileLinks()[0].profileId).to.equal("P1");
             }
             if (profile2 != undefined) {
 
-                expect(profile2.parentInFamilies.length).to.equal(1);
+                expect(profile2.getParentFamilyLinks().length).to.equal(1);
 
-                expect(profile2.parentInFamilies[0].familyId).to.equal("F1");
+                expect(profile2.getParentFamilyLinks()[0].familyId).to.equal("F1");
             }
         }
     })
@@ -144,17 +144,17 @@ describe('verify tree', () => {
 
             if (family2 != undefined) {
 
-                expect(family2.parents.length).to.equal(2);
+                expect(family2.getParentProfileLinks().length).to.equal(2);
 
-                expect(family2.parents[0].profileId).to.equal("P1");
+                expect(family2.getParentProfileLinks()[0].profileId).to.equal("P1");
 
-                expect(family2.parents[1].profileId).to.equal("P2");
+                expect(family2.getParentProfileLinks()[1].profileId).to.equal("P2");
             }
             if (profile2 != undefined) {
 
-                expect(profile2.parentInFamilies.length).to.equal(1);
+                expect(profile2.getParentFamilyLinks().length).to.equal(1);
 
-                expect(profile2.parentInFamilies[0].familyId).to.equal("F1");
+                expect(profile2.getParentFamilyLinks()[0].familyId).to.equal("F1");
             }
         }
     })
@@ -162,7 +162,7 @@ describe('verify tree', () => {
         //Arrange
         let family = new Family();
 
-        expect(family.familyId.familyId).to.equal("");
+        expect(family.getFamilyLink().familyId).to.equal("");
 
         let newFamilyId = tree.addNewFamily(family);
 
@@ -178,9 +178,9 @@ describe('verify tree', () => {
 
         if (profile1 != undefined) {
 
-            expect(profile1.childInFamilies.length).to.equal(1);
+            expect(profile1.getChildFamilyLinks().length).to.equal(1);
 
-            expect(profile1.childInFamilies[0].familyId).to.equal("F2");
+            expect(profile1.getChildFamilyLinks()[0].familyId).to.equal("F2");
         }
 
     })

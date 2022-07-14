@@ -21,4 +21,23 @@ export class Profile {
     deathPlace: string;
     parentInFamilies: FamilyLink[];
     childInFamilies: FamilyLink[];
+
+    getProfileLink() : ProfileLink {
+        return this.profileId;
+    }
+    getFullName() : string {
+        return this.name;
+    }
+    getChildFamilyLinks() : FamilyLink[] {
+        return this.childInFamilies;
+    }
+    getParentFamilyLinks() : FamilyLink[] {
+        return this.parentInFamilies;
+    }
+    getBirthDate() : string {
+        return this.birthDate;
+    }
+    getDeathDate() : string {
+        return this.deathDate;
+    }
 };

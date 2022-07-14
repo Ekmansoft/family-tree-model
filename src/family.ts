@@ -15,5 +15,16 @@ export class Family {
     marriagePlace: string;
     parents: ProfileLink[];
     children: ProfileLink[];
+
+    getFamilyLink() : FamilyLink {
+        return this.familyId;
+    }
+    getParentProfileLinks() : ProfileLink[] {
+        return this.parents;
+    }
+    getChildProfileLinks() : ProfileLink[] {
+        return this.children;
+    }
+
 };
 
