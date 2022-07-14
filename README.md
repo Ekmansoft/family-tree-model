@@ -10,8 +10,8 @@ This is an attempt to create such an open source, free data model that can be re
 
 # Data structure
 
-Many genealogical data structures (for examples the [GEDCOM](https://en.wikipedia.org/wiki/GEDCOM) file format and [Geni.com](http://Geni.com))
-use a data structure with two types of nodes, family-nodes, and individual-nodes.
+Many genealogical data structures (for examples the [GEDCOM](https://en.wikipedia.org/wiki/GEDCOM) file format
+and [Geni.com](http://Geni.com)) use a data structure with two types of nodes, family-nodes, and individual-nodes.
 
 These nodes are then double-linked to each other to connect family members and related families to each other.
 
