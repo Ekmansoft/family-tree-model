@@ -10,7 +10,7 @@ export class Profile {
         this.birthPlace = "";
         this.deathDate = "";
         this.deathPlace = "";
-        this.spouseInFamilies = [];
+        this.parentInFamilies = [];
         this.childInFamilies = [];
     }
     profileId: ProfileLink;
@@ -19,6 +19,6 @@ export class Profile {
     deathDate: string;
     birthPlace: string;
     deathPlace: string;
-    spouseInFamilies: FamilyLink[];
+    parentInFamilies: FamilyLink[];
     childInFamilies: FamilyLink[];
 };

@@ -22,7 +22,7 @@ Profile {
     birthDate: string;
     deathDate: string;
     childInFamilies[]: FamilyLink;
-    childInFamilies[]: FamilyLink;
+    parentInFamilies[]: FamilyLink;
 }
 ```
 
@@ -54,20 +54,26 @@ Here is an example how it can look in a family with two parents and one child, a
 
 ``` mermaid
   graph TD;
-      grandMother1(Mother's mother)-->|spouseInFamily|grandParentFamily1(Family where mother grew up);
-      grandFather1(Mother's father)-->|spouseInFamily|grandParentFamily1(Family where mother grew up);
-      grandParentFamily1-->|parents|grandMother1;
+      grandMother1(Mother's mother):::ProfileClass-->|parentInFamily|grandParentFamily1[Family where mother grew up];
+      grandFather1(Mother's father):::ProfileClass-->|parentInFamily|grandParentFamily1(Family where mother grew up);
+      grandParentFamily1:::FamilyClass-->|parents|grandMother1:::ProfileClass;
       grandParentFamily1-->|parents|grandFather1;
-      grandParentFamily1-->|children|motherProfile1;
-      family1(Main family)-->|parents|motherProfile1;
-      family1-->|parents|fatherProfile1(Father);
-      family1-->|children|childProfile1(Child);
+      grandParentFamily1-->|children|motherProfile1:::ProfileClass;
+      family1(Main family):::FamilyClass-->|parents|motherProfile1;
+      family1-->|parents|fatherProfile1(Father):::ProfileClass;
+      family1-->|children|childProfile1(Child):::ProfileClass;
       motherProfile1(Mother)-->|childInFamilies|grandParentFamily1;
-      motherProfile1-->|spouseInFamilies|family1(Main family);
-      fatherProfile1(Father)-->|spouseInFamilies|family1;
+      motherProfile1-->|parentInFamilies|family1(Main family);
+      fatherProfile1(Father)-->|parentInFamilies|family1;
       childProfile1(Child)-->|childInFamilies|family1;
-      style family1 fill:#e44,stroke-width:4px,stroke-dasharray:5
-      style grandParentFamily1 fill:#e44,stroke-width:4px,stroke-dasharray:5
+      classDef FamilyClass fill:#f33,color:#000,stroke-width:4px,stroke-dasharray:5
+      classDef ProfileClass fill:#3f3,color:#000,stroke-width:4px,stroke-dasharray:5
 ```
 
 If this looks complicated to you, yes, it is a bit complicated, but family relations are complicated, so these data structures need to be a bit complicated too... ;-)
+
+The model is flexible enough to also handle special cases such as where a child has
+multple sets of parents. This is very useful when a child has both biological parents and
+foster parents for example.
+
+Cases where parents have children with multiple partners are also handled with ease.

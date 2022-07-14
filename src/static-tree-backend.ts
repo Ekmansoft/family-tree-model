@@ -54,8 +54,8 @@ export class StaticTreeBackend implements TreeBackend {
                 if (thisProfile.childInFamilies != null) {
                     thisProfile.childInFamilies = profile.childInFamilies;
                 }
-                if (thisProfile.spouseInFamilies != null) {
-                    thisProfile.spouseInFamilies = profile.spouseInFamilies;
+                if (thisProfile.parentInFamilies != null) {
+                    thisProfile.parentInFamilies = profile.parentInFamilies;
                 }
                 this.profileMap.set(thisId.profileId, thisProfile);
 
@@ -89,8 +89,8 @@ export class StaticTreeBackend implements TreeBackend {
         let family = this.findFamily(familyLink);
 
         if ((profile != undefined) && (family != undefined))  {
-            if (profile.spouseInFamilies.length > 0) {
-                profile.spouseInFamilies.forEach(element => {
+            if (profile.parentInFamilies.length > 0) {
+                profile.parentInFamilies.forEach(element => {
                     if (element.familyId == familyLink.familyId) {
                         return false;
                     }
@@ -103,7 +103,7 @@ export class StaticTreeBackend implements TreeBackend {
                     }
                 });
             }
-            profile.spouseInFamilies.push(familyLink);
+            profile.parentInFamilies.push(familyLink);
             family.parents.push(profileLink);
             let result1 = this.updateProfile(profile);
             let result2 = this.updateFamily(family);
@@ -148,9 +148,9 @@ export class StaticTreeBackend implements TreeBackend {
         if ((profile != undefined) && (family != undefined))  {
             let profileLinkIx = -1;
             let familyLinkIx = -1;
-            if (profile.spouseInFamilies.length > 0) {
+            if (profile.parentInFamilies.length > 0) {
                 let ix = 0;
-                profile.spouseInFamilies.forEach(element => {
+                profile.parentInFamilies.forEach(element => {
                     if (element.familyId == familyLink.familyId) {
                         profileLinkIx = ix;
                     }
@@ -167,7 +167,7 @@ export class StaticTreeBackend implements TreeBackend {
                 });
             }
             if ((profileLinkIx >= 0) && (familyLinkIx >= 0)) {
-                profile.spouseInFamilies.splice(profileLinkIx, 1);
+                profile.parentInFamilies.splice(profileLinkIx, 1);
                 family.parents.splice(familyLinkIx, 1);
                 let result1 = this.updateProfile(profile);
                 let result2 = this.updateFamily(family);

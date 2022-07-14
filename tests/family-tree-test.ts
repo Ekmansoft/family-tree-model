@@ -116,9 +116,9 @@ describe('verify tree', () => {
             }
             if (profile2 != undefined) {
 
-                expect(profile2.spouseInFamilies.length).to.equal(1);
+                expect(profile2.parentInFamilies.length).to.equal(1);
 
-                expect(profile2.spouseInFamilies[0].familyId).to.equal("F1");
+                expect(profile2.parentInFamilies[0].familyId).to.equal("F1");
             }
         }
     })
@@ -152,9 +152,9 @@ describe('verify tree', () => {
             }
             if (profile2 != undefined) {
 
-                expect(profile2.spouseInFamilies.length).to.equal(1);
+                expect(profile2.parentInFamilies.length).to.equal(1);
 
-                expect(profile2.spouseInFamilies[0].familyId).to.equal("F1");
+                expect(profile2.parentInFamilies[0].familyId).to.equal("F1");
             }
         }
     })
