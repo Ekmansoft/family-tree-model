@@ -83,6 +83,6 @@ Cases where parents have children with multiple partners are also handled with e
 
 # Support for different backends
 
-The data model is also intended to be flexible enough to be usable both for local family trees, decoded from
+The data model is intended to be flexible enough to be usable both for local family trees, decoded from
 a GEDCOM file for example, and trees that are kept remotely (such as Geni.com).
 This can be done by implementing a backend for each tree type.
