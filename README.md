@@ -55,7 +55,9 @@ Here is an example how it can look in a family with two parents and one child, a
 ``` mermaid
   graph TD;
       grandMother1(Mother's mother)-->|spouseInFamily|grandParentFamily1(Family where mother grew up);
+      grandFather1(Mother's father)-->|spouseInFamily|grandParentFamily1(Family where mother grew up);
       grandParentFamily1-->|parents|grandMother1;
+      grandParentFamily1-->|parents|grandFather1;
       grandParentFamily1-->|children|motherProfile1;
       family1(Main family)-->|parents|motherProfile1;
       family1-->|parents|fatherProfile1(Father);
@@ -64,7 +66,8 @@ Here is an example how it can look in a family with two parents and one child, a
       motherProfile1-->|spouseInFamilies|family1(Main family);
       fatherProfile1(Father)-->|spouseInFamilies|family1;
       childProfile1(Child)-->|childInFamilies|family1;
-      style family1 fill:#444,stroke-width:4px
-      style grandParentFamily1 fill:#444,stroke-width:4px
+      style family1 fill:#e44,stroke-width:4px,stroke-dasharray:5
+      style grandParentFamily1 fill:#e44,stroke-width:4px,stroke-dasharray:5
 ```
 
+If this looks complicated to you, yes, it is a bit complicated, but family relations are complicated, so these data structures need to be a bit complicated too... ;-)
