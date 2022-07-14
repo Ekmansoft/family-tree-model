@@ -50,17 +50,19 @@ ProfileLink {
 ```
 
 # Simple example
-Here is an example of one family with two parents and one child.
+Here is an example of one family with two parents and one child, and a link to the family where the mother of the family grew up.
 
 ``` mermaid
   graph TD;
       family1-->|parents|motherProfile1;
       family1-->|parents|fatherProfile1;
       family1-->|children|childProfile1;
+      grandParentFamily1-->|children|motherProfile1;
 ```
 
 ``` mermaid
   graph TD;
+      motherProfile1-->|childInFamilies|grandParentFamily1;
       motherProfile1-->|spouseInFamilies|family1;
       fatherProfile1-->|spouseInFamilies|family1;
       childProfile1-->|childInFamilies|family1;
