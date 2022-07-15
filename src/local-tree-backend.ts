@@ -31,13 +31,13 @@ export class LocalTreeBackend implements TreeBackend {
             let thisId = family.familyId;
             let thisFamily = this.findFamily(thisId);
             if (thisFamily != null) {
-                if (family.children != null) {
-                    thisFamily.children = family.children;
+                if (family.children.getLinks().length > 0) {
+                    thisFamily.children.setLinks(family.children.getLinks());
                 }
-                if (family.parents != null) {
-                    thisFamily.parents = family.parents;
+                if (family.parents.getLinks().length > 0) {
+                    thisFamily.parents.setLinks(family.parents.getLinks());
                 }
-                this.familyMap.set(thisId.familyId, thisFamily);
+                this.familyMap.set(thisId.itemLink, thisFamily);
 
                 return true;
             }
@@ -51,13 +51,13 @@ export class LocalTreeBackend implements TreeBackend {
             let thisId = profile.profileId;
             let thisProfile = this.findProfile(thisId);
             if (thisProfile != null) {
-                if (thisProfile.childInFamilies != null) {
-                    thisProfile.childInFamilies = profile.childInFamilies;
+                if (profile.childInFamilies.getLinks().length > 0) {
+                    thisProfile.childInFamilies.setLinks(profile.childInFamilies.getLinks());
                 }
-                if (thisProfile.parentInFamilies != null) {
-                    thisProfile.parentInFamilies = profile.parentInFamilies;
+                if (profile.parentInFamilies.getLinks().length > 0) {
+                    thisProfile.parentInFamilies.setLinks(profile.parentInFamilies.getLinks());
                 }
-                this.profileMap.set(thisId.profileId, thisProfile);
+                this.profileMap.set(thisId.itemLink, thisProfile);
 
                 return true;
             }
@@ -70,7 +70,7 @@ export class LocalTreeBackend implements TreeBackend {
         if (!family.familyId.isValid()) {
             family.familyId = this.createNewFamilyLink();
         }
-        this.familyMap.set(family.familyId.familyId, family);
+        this.familyMap.set(family.familyId.itemLink, family);
         return family.familyId;
     }
 
@@ -79,7 +79,7 @@ export class LocalTreeBackend implements TreeBackend {
         if (!profile.profileId.isValid()) {
             profile.profileId = this.createNewProfileLink();
         }
-        this.profileMap.set(profile.profileId.profileId, profile);
+        this.profileMap.set(profile.profileId.itemLink, profile);
         return profile.profileId;
     }
 
@@ -89,22 +89,8 @@ export class LocalTreeBackend implements TreeBackend {
         let family = this.findFamily(familyLink);
 
         if ((profile != undefined) && (family != undefined))  {
-            if (profile.parentInFamilies.length > 0) {
-                profile.parentInFamilies.forEach(element => {
-                    if (element.familyId == familyLink.familyId) {
-                        return false;
-                    }
-                });
-            }
-            if (family.parents.length > 0) {
-                family.parents.forEach(element => {
-                    if (element.profileId == profileLink.profileId) {
-                        return false;
-                    }
-                });
-            }
-            profile.parentInFamilies.push(familyLink);
-            family.parents.push(profileLink);
+            profile.parentInFamilies.append(familyLink);
+            family.parents.append(profileLink);
             let result1 = this.updateProfile(profile);
             let result2 = this.updateFamily(family);
             return result1 && result2;
@@ -117,22 +103,8 @@ export class LocalTreeBackend implements TreeBackend {
         let family = this.findFamily(familyLink);
 
         if ((profile != undefined) && (family != undefined))  {
-            if (profile.childInFamilies.length > 0) {
-                profile.childInFamilies.forEach(element => {
-                    if (element.familyId == familyLink.familyId) {
-                        return false;
-                    }
-                });
-            }
-            if (family.children.length > 0) {
-                family.children.forEach(element => {
-                    if (element.profileId == profileLink.profileId) {
-                        return false;
-                    }
-                });
-            }
-            profile.childInFamilies.push(familyLink);
-            family.children.push(profileLink);
+            profile.childInFamilies.append(familyLink);
+            family.children.append(profileLink);
             let result1 = this.updateProfile(profile);
             let result2 = this.updateFamily(family);
             return result1 && result2;
@@ -146,33 +118,11 @@ export class LocalTreeBackend implements TreeBackend {
         let family = this.findFamily(familyLink);
 
         if ((profile != undefined) && (family != undefined))  {
-            let profileLinkIx = -1;
-            let familyLinkIx = -1;
-            if (profile.parentInFamilies.length > 0) {
-                let ix = 0;
-                profile.parentInFamilies.forEach(element => {
-                    if (element.familyId == familyLink.familyId) {
-                        profileLinkIx = ix;
-                    }
-                    ix++;
-                });
-            }
-            if (family.parents.length > 0) {
-                let ix = 0;
-                family.parents.forEach(element => {
-                    if (element.profileId == profileLink.profileId) {
-                        familyLinkIx = ix;
-                    }
-                    ix++;
-                });
-            }
-            if ((profileLinkIx >= 0) && (familyLinkIx >= 0)) {
-                profile.parentInFamilies.splice(profileLinkIx, 1);
-                family.parents.splice(familyLinkIx, 1);
-                let result1 = this.updateProfile(profile);
-                let result2 = this.updateFamily(family);
-                return result1 && result2;
-                }
+            profile.parentInFamilies.remove(familyLink);
+            family.parents.remove(profileLink);
+            let result1 = this.updateProfile(profile);
+            let result2 = this.updateFamily(family);
+            return result1 && result2;
         }
         return false;
     }
@@ -183,33 +133,11 @@ export class LocalTreeBackend implements TreeBackend {
         let family = this.findFamily(familyLink);
 
         if ((profile != undefined) && (family != undefined))  {
-            let profileLinkIx = -1;
-            let familyLinkIx = -1;
-            if (profile.childInFamilies.length > 0) {
-                let ix = 0;
-                profile.childInFamilies.forEach(element => {
-                    if (element.familyId == familyLink.familyId) {
-                        profileLinkIx = ix;
-                    }
-                    ix++;
-                });
-            }
-            if (family.children.length > 0) {
-                let ix = 0;
-                family.children.forEach(element => {
-                    if (element.profileId == profileLink.profileId) {
-                        familyLinkIx = ix;
-                    }
-                    ix++;
-                });
-            }
-            if ((profileLinkIx >= 0) && (familyLinkIx >= 0)) {
-                profile.childInFamilies.splice(profileLinkIx, 1);
-                family.children.splice(familyLinkIx, 1);
-                let result1 = this.updateProfile(profile);
-                let result2 = this.updateFamily(family);
-                return result1 && result2;
-                }
+            profile.childInFamilies.remove(familyLink);
+            family.children.remove(profileLink);
+            let result1 = this.updateProfile(profile);
+            let result2 = this.updateFamily(family);
+            return result1 && result2;
         }
         return false;
     }
@@ -218,7 +146,7 @@ export class LocalTreeBackend implements TreeBackend {
     findProfile(profileLink: ProfileLink) : Profile|undefined
     {
         let thisId = profileLink;
-        let thisProfile = this.profileMap.get(thisId.profileId);
+        let thisProfile = this.profileMap.get(thisId.itemLink);
 
         return thisProfile;
     }
@@ -226,9 +154,11 @@ export class LocalTreeBackend implements TreeBackend {
     findFamily(familyLink: FamilyLink) : Family|undefined
     {
         let thisId = familyLink;
-        let thisFamily = this.familyMap.get(thisId.familyId);
+        let thisFamily = this.familyMap.get(thisId.itemLink);
         return thisFamily;
     }
+
+
 
     showTreeStats() : void
     {

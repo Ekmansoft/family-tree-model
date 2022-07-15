@@ -1,15 +1,9 @@
 import { TreeBackend } from './tree-backend';
+import { ItemLink } from './item-link';
 import { Profile } from './profile';
 
-export class ProfileLink {
-    constructor(link: string) {
-        this.profileId = link;
-    }
-    isValid() : boolean {
-        return (this.profileId != null) && (this.profileId.length > 0);
-    }
-    fetch(tree: TreeBackend) : Profile|undefined {
+export class ProfileLink extends ItemLink {
+    getProfile(tree: TreeBackend) : Profile|undefined {
         return tree.findProfile(this);
     }
-    profileId: string;
 };

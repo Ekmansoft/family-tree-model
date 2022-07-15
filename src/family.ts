@@ -1,5 +1,5 @@
 import { FamilyLink } from './family-link';
-import { ProfileLink } from './profile-link';
+import { ItemLinkArray } from './item-link-array';
 
 export class Family {
     constructor()
@@ -7,24 +7,14 @@ export class Family {
         this.familyId = new FamilyLink("");
         this.marriageDate = "";
         this.marriagePlace = "";
-        this.parents = [];
-        this.children = [];
+        this.parents = new ItemLinkArray();
+        this.children = new ItemLinkArray();
     }
     familyId: FamilyLink;
     marriageDate: string;
     marriagePlace: string;
-    parents: ProfileLink[];
-    children: ProfileLink[];
-
-    getFamilyLink() : FamilyLink {
-        return this.familyId;
-    }
-    getParentProfileLinks() : ProfileLink[] {
-        return this.parents;
-    }
-    getChildProfileLinks() : ProfileLink[] {
-        return this.children;
-    }
+    parents: ItemLinkArray;
+    children: ItemLinkArray;
 
 };
 

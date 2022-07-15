@@ -1,4 +1,4 @@
-import { FamilyLink } from './family-link';
+import { ItemLinkArray } from './item-link-array';
 import { ProfileLink } from './profile-link';
 
 export class Profile {
@@ -10,8 +10,8 @@ export class Profile {
         this.birthPlace = "";
         this.deathDate = "";
         this.deathPlace = "";
-        this.parentInFamilies = [];
-        this.childInFamilies = [];
+        this.parentInFamilies = new ItemLinkArray();
+        this.childInFamilies = new ItemLinkArray();
     }
     profileId: ProfileLink;
     name: string;
@@ -19,20 +19,11 @@ export class Profile {
     deathDate: string;
     birthPlace: string;
     deathPlace: string;
-    parentInFamilies: FamilyLink[];
-    childInFamilies: FamilyLink[];
+    parentInFamilies: ItemLinkArray;
+    childInFamilies: ItemLinkArray;
 
-    getProfileLink() : ProfileLink {
-        return this.profileId;
-    }
     getFullName() : string {
         return this.name;
-    }
-    getChildFamilyLinks() : FamilyLink[] {
-        return this.childInFamilies;
-    }
-    getParentFamilyLinks() : FamilyLink[] {
-        return this.parentInFamilies;
     }
     getBirthDate() : string {
         return this.birthDate;
@@ -40,4 +31,5 @@ export class Profile {
     getDeathDate() : string {
         return this.deathDate;
     }
+
 };
