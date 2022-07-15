@@ -185,5 +185,45 @@ describe('verify tree', () => {
         }
 
     })
+    it('Add grandparent 1 to second family ', () => {
+        //Arrange
+        let family = tree.findFamily(new FamilyLink("F2"));
+
+        expect(family?.familyId.itemLink).to.equal("F2");
+
+        if (family?.familyId != undefined) {
+
+            let newProfile3 = createProfile("Thelma Andersson", "18830303", "Umeå, Sweden", "19230303", "Vännäs, Sweden");
+
+            let newProfileId = tree.addNewProfile(newProfile3);
+            // Act
+            expect(newProfileId?.itemLink).to.equal("P3");
+
+            let result = tree.addParentToFamily(new FamilyLink("F2"), new ProfileLink("P3"));
+
+            expect(result).to.equal(true);
+
+            let family2 = tree.findFamily(new FamilyLink("F2"));
+
+            expect(family2).to.not.equal(undefined);
+
+            let profile2 = tree.findProfile(new ProfileLink("P3"));
+
+            expect(profile2).to.not.equal(undefined);
+
+            if (family2 != undefined) {
+
+                expect(family2.parents.getLinks().length).to.equal(1);
+
+                expect(family2.parents.getLinks()[0].itemLink).to.equal("P3");
+            }
+            if (profile2 != undefined) {
+
+                expect(profile2.parentInFamilies.getLinks().length).to.equal(1);
+
+                expect(profile2.parentInFamilies.getLinks()[0].itemLink).to.equal("F2");
+            }
+        }
+    })
 
 });
