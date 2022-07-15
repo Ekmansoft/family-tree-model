@@ -3,6 +3,7 @@ import { ProfileLink } from './profile-link';
 import { Family } from './family';
 import { Profile } from './profile';
 import { TreeBackend } from './tree-backend';
+import { ItemLinkArray } from './item-link-array';
 
 export class LocalTreeBackend implements TreeBackend {
     constructor() {
@@ -103,25 +104,31 @@ export class LocalTreeBackend implements TreeBackend {
         return profile.profileId;
     }
 
+    addProfileToFamily(profileLinkArray: ItemLinkArray, familyLinkArray: ItemLinkArray, profile: Profile, family: Family) : boolean
+    {
+        let profilAppendSuccess = profileLinkArray.append(family.familyId);
+        let familyAppendSuccess = familyLinkArray.append(profile.profileId);
+        if (profilAppendSuccess && familyAppendSuccess) {
+            let result1 = this.updateProfile(profile);
+            let result2 = this.updateFamily(family);
+            if (!result1 || !result2) {
+                console.log("Error removing parent from family ", result1, result2);
+            }
+            return result1 && result2;
+        } else {
+            console.log("Error removing parent from family ", profilAppendSuccess, familyAppendSuccess);
+        }
+        return false;
+    }
+
+
     addParentToFamily(familyLink: FamilyLink, profileLink: ProfileLink) : boolean
     {
         let profile = this.findProfile(profileLink);
         let family = this.findFamily(familyLink);
 
         if ((profile != undefined) && (family != undefined))  {
-            let profileAppSuccess = profile.parentInFamilies.append(familyLink);
-            let familyAppSuccess = family.parents.append(profileLink);
-            if (profileAppSuccess && familyAppSuccess) {
-                let result1 = this.updateProfile(profile);
-                let result2 = this.updateFamily(family);
-                if (!result1 || !result2) {
-                    console.log("Error adding parent to family, update failed ", result1, result2);
-                }
-                return result1 && result2;
-            } else {
-                console.log("Error adding parent to family, append failed ", profileAppSuccess, familyAppSuccess);
-            }
-            return false;
+            return this.addProfileToFamily(profile.parentInFamilies, family.parents, profile, family);
         }
         console.log("Error adding parent to family, not found ", profileLink, familyLink);
         return false;
@@ -133,23 +140,29 @@ export class LocalTreeBackend implements TreeBackend {
         let family = this.findFamily(familyLink);
 
         if ((profile != undefined) && (family != undefined))  {
-            let profileAppSuccess = profile.childInFamilies.append(familyLink);
-            let familyAppSuccess = family.children.append(profileLink);
-            if (profileAppSuccess && familyAppSuccess) {
-                let result1 = this.updateProfile(profile);
-                let result2 = this.updateFamily(family);
-                if (!result1 || !result2) {
-                    console.log("Error adding child to family, update failed ", result1, result2);
-                }
-                return result1 && result2;
-            } else {
-                console.log("Error adding child to family, append failed ", profileAppSuccess, familyAppSuccess);
-            }
-            return false;
+            return this.addProfileToFamily(profile.childInFamilies, family.children, profile, family);
         }
         console.log("Error adding child to family, not found ", profileLink, familyLink);
         return false;
     }
+
+    removeProfileFromFamily(profileLinkArray: ItemLinkArray, familyLinkArray: ItemLinkArray, profile: Profile, family: Family) : boolean
+    {
+        let profileRemSuccess = profileLinkArray.remove(family.familyId);
+        let familyRemSuccess = familyLinkArray.remove(profile.profileId);
+        if (profileRemSuccess && familyRemSuccess) {
+            let result1 = this.updateProfile(profile);
+            let result2 = this.updateFamily(family);
+            if (!result1 || !result2) {
+                console.log("Error removing parent from family ", result1, result2);
+            }
+            return result1 && result2;
+        } else {
+            console.log("Error removing parent from family ", profileRemSuccess, familyRemSuccess);
+        }
+        return false;
+    }
+
 
     removeParentFromFamily(familyLink: FamilyLink, profileLink: ProfileLink) : boolean
     {
@@ -157,19 +170,7 @@ export class LocalTreeBackend implements TreeBackend {
         let family = this.findFamily(familyLink);
 
         if ((profile != undefined) && (family != undefined))  {
-            let profileRemSuccess = profile.parentInFamilies.remove(familyLink);
-            let familyRemSuccess = family.parents.remove(profileLink);
-            if (profileRemSuccess && familyRemSuccess) {
-                let result1 = this.updateProfile(profile);
-                let result2 = this.updateFamily(family);
-                if (!result1 || !result2) {
-                    console.log("Error removing parent from family ", result1, result2);
-                }
-                return result1 && result2;
-            } else {
-                console.log("Error removing parent from family ", profileRemSuccess, familyRemSuccess);
-            }
-            return false
+            return this.removeProfileFromFamily(profile.parentInFamilies, family.parents, profile, family);
         }
         return false;
     }
@@ -180,19 +181,7 @@ export class LocalTreeBackend implements TreeBackend {
         let family = this.findFamily(familyLink);
 
         if ((profile != undefined) && (family != undefined))  {
-            let profileRemSuccess = profile.childInFamilies.remove(familyLink);
-            let familyRemSuccess = family.children.remove(profileLink);
-            if (profileRemSuccess && familyRemSuccess) {
-                let result1 = this.updateProfile(profile);
-                let result2 = this.updateFamily(family);
-                if (!result1 || !result2) {
-                    console.log("Error removing child from family ", result1, result2);
-                }
-                return result1 && result2;
-            } else {
-                console.log("Error removing child from family ", profileRemSuccess, familyRemSuccess);
-            }
-            return false
+            return this.removeProfileFromFamily(profile.childInFamilies, family.children, profile, family);
         }
         return false;
     }
