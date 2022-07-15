@@ -77,6 +77,12 @@ export class LocalTreeBackend implements TreeBackend {
     {
         if (!family.familyId.isValid()) {
             family.familyId = this.createNewFamilyLink();
+        } else {
+            let item = this.familyMap.get(family.familyId.itemLink);
+            if (item != undefined) {
+                console.log("Error adding new family, already exists");
+                return family.familyId;
+            }
         }
         this.familyMap.set(family.familyId.itemLink, family);
         return family.familyId;
@@ -86,6 +92,12 @@ export class LocalTreeBackend implements TreeBackend {
     {
         if (!profile.profileId.isValid()) {
             profile.profileId = this.createNewProfileLink();
+        } else {
+            let item = this.profileMap.get(profile.profileId.itemLink);
+            if (item != undefined) {
+                console.log("Error adding new profile, already exists");
+                return profile.profileId;
+            }
         }
         this.profileMap.set(profile.profileId.itemLink, profile);
         return profile.profileId;
