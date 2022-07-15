@@ -31,10 +31,10 @@ export class LocalTreeBackend implements TreeBackend {
             let thisId = family.familyId;
             let thisFamily = this.findFamily(thisId);
             if (thisFamily != null) {
-                if (family.children.getLinks().length > 0) {
+                if (family.children.isValid()) {
                     thisFamily.children.setLinks(family.children.getLinks());
                 }
-                if (family.parents.getLinks().length > 0) {
+                if (family.parents.isValid()) {
                     thisFamily.parents.setLinks(family.parents.getLinks());
                 }
                 this.familyMap.set(thisId.itemLink, thisFamily);
@@ -51,10 +51,10 @@ export class LocalTreeBackend implements TreeBackend {
             let thisId = profile.profileId;
             let thisProfile = this.findProfile(thisId);
             if (thisProfile != null) {
-                if (profile.childInFamilies.getLinks().length > 0) {
+                if (profile.childInFamilies.isValid()) {
                     thisProfile.childInFamilies.setLinks(profile.childInFamilies.getLinks());
                 }
-                if (profile.parentInFamilies.getLinks().length > 0) {
+                if (profile.parentInFamilies.isValid()) {
                     thisProfile.parentInFamilies.setLinks(profile.parentInFamilies.getLinks());
                 }
                 this.profileMap.set(thisId.itemLink, thisProfile);
