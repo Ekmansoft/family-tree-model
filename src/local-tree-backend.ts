@@ -40,7 +40,11 @@ export class LocalTreeBackend implements TreeBackend {
                 this.familyMap.set(thisId.itemLink, thisFamily);
 
                 return true;
+            } else {
+                console.log("Error updating family, not found ", family.familyId);
             }
+        } else {
+            console.log("Error updating family, not valid ", family.familyId);
         }
         return false;
     }
@@ -60,7 +64,11 @@ export class LocalTreeBackend implements TreeBackend {
                 this.profileMap.set(thisId.itemLink, thisProfile);
 
                 return true;
+            } else {
+                console.log("Error updating profile, not found ", profile.profileId);
             }
+        } else {
+            console.log("Error updating profile, not valid ", profile.profileId);
         }
         return false;
     }
@@ -93,10 +101,15 @@ export class LocalTreeBackend implements TreeBackend {
             family.parents.append(profileLink);
             let result1 = this.updateProfile(profile);
             let result2 = this.updateFamily(family);
+            if (!result1 || !result2) {
+                console.log("Error adding parent to family ", result1, result2);
+            }
             return result1 && result2;
         }
+        console.log("Error adding parent to family, not found ", profileLink, familyLink);
         return false;
     }
+
     addChildToFamily(familyLink: FamilyLink, profileLink: ProfileLink) : boolean
     {
         let profile = this.findProfile(profileLink);
@@ -107,8 +120,12 @@ export class LocalTreeBackend implements TreeBackend {
             family.children.append(profileLink);
             let result1 = this.updateProfile(profile);
             let result2 = this.updateFamily(family);
+            if (!result1 || !result2) {
+                console.log("Error adding child to family ", result1, result2);
+            }
             return result1 && result2;
         }
+        console.log("Error adding child to family, not found ", profileLink, familyLink);
         return false;
     }
 
@@ -122,6 +139,9 @@ export class LocalTreeBackend implements TreeBackend {
             family.parents.remove(profileLink);
             let result1 = this.updateProfile(profile);
             let result2 = this.updateFamily(family);
+            if (!result1 || !result2) {
+                console.log("Error removing parent from family ", result1, result2);
+            }
             return result1 && result2;
         }
         return false;
@@ -137,6 +157,9 @@ export class LocalTreeBackend implements TreeBackend {
             family.children.remove(profileLink);
             let result1 = this.updateProfile(profile);
             let result2 = this.updateFamily(family);
+            if (!result1 || !result2) {
+                console.log("Error removing child from family ", result1, result2);
+            }
             return result1 && result2;
         }
         return false;

@@ -138,10 +138,6 @@ describe('verify tree', () => {
 
             expect(family2).to.not.equal(undefined);
 
-            let profile2 = tree.findProfile(new ProfileLink("P2"));
-
-            expect(profile2).to.not.equal(undefined);
-
             if (family2 != undefined) {
 
                 expect(family2.parents.getLinks().length).to.equal(2);
@@ -150,6 +146,11 @@ describe('verify tree', () => {
 
                 expect(family2.parents.getLinks()[1].itemLink).to.equal("P2");
             }
+
+            let profile2 = tree.findProfile(new ProfileLink("P2"));
+
+            expect(profile2).to.not.equal(undefined);
+
             if (profile2 != undefined) {
 
                 expect(profile2.parentInFamilies.getLinks().length).to.equal(1);
