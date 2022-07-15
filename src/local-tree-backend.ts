@@ -109,14 +109,19 @@ export class LocalTreeBackend implements TreeBackend {
         let family = this.findFamily(familyLink);
 
         if ((profile != undefined) && (family != undefined))  {
-            profile.parentInFamilies.append(familyLink);
-            family.parents.append(profileLink);
-            let result1 = this.updateProfile(profile);
-            let result2 = this.updateFamily(family);
-            if (!result1 || !result2) {
-                console.log("Error adding parent to family ", result1, result2);
+            let profileAppSuccess = profile.parentInFamilies.append(familyLink);
+            let familyAppSuccess = family.parents.append(profileLink);
+            if (profileAppSuccess && familyAppSuccess) {
+                let result1 = this.updateProfile(profile);
+                let result2 = this.updateFamily(family);
+                if (!result1 || !result2) {
+                    console.log("Error adding parent to family, update failed ", result1, result2);
+                }
+                return result1 && result2;
+            } else {
+                console.log("Error adding parent to family, append failed ", profileAppSuccess, familyAppSuccess);
             }
-            return result1 && result2;
+            return false;
         }
         console.log("Error adding parent to family, not found ", profileLink, familyLink);
         return false;
@@ -128,14 +133,19 @@ export class LocalTreeBackend implements TreeBackend {
         let family = this.findFamily(familyLink);
 
         if ((profile != undefined) && (family != undefined))  {
-            profile.childInFamilies.append(familyLink);
-            family.children.append(profileLink);
-            let result1 = this.updateProfile(profile);
-            let result2 = this.updateFamily(family);
-            if (!result1 || !result2) {
-                console.log("Error adding child to family ", result1, result2);
+            let profileAppSuccess = profile.childInFamilies.append(familyLink);
+            let familyAppSuccess = family.children.append(profileLink);
+            if (profileAppSuccess && familyAppSuccess) {
+                let result1 = this.updateProfile(profile);
+                let result2 = this.updateFamily(family);
+                if (!result1 || !result2) {
+                    console.log("Error adding child to family, update failed ", result1, result2);
+                }
+                return result1 && result2;
+            } else {
+                console.log("Error adding child to family, append failed ", profileAppSuccess, familyAppSuccess);
             }
-            return result1 && result2;
+            return false;
         }
         console.log("Error adding child to family, not found ", profileLink, familyLink);
         return false;
@@ -147,14 +157,19 @@ export class LocalTreeBackend implements TreeBackend {
         let family = this.findFamily(familyLink);
 
         if ((profile != undefined) && (family != undefined))  {
-            profile.parentInFamilies.remove(familyLink);
-            family.parents.remove(profileLink);
-            let result1 = this.updateProfile(profile);
-            let result2 = this.updateFamily(family);
-            if (!result1 || !result2) {
-                console.log("Error removing parent from family ", result1, result2);
+            let profileRemSuccess = profile.parentInFamilies.remove(familyLink);
+            let familyRemSuccess = family.parents.remove(profileLink);
+            if (profileRemSuccess && familyRemSuccess) {
+                let result1 = this.updateProfile(profile);
+                let result2 = this.updateFamily(family);
+                if (!result1 || !result2) {
+                    console.log("Error removing parent from family ", result1, result2);
+                }
+                return result1 && result2;
+            } else {
+                console.log("Error removing parent from family ", profileRemSuccess, familyRemSuccess);
             }
-            return result1 && result2;
+            return false
         }
         return false;
     }
@@ -165,14 +180,19 @@ export class LocalTreeBackend implements TreeBackend {
         let family = this.findFamily(familyLink);
 
         if ((profile != undefined) && (family != undefined))  {
-            profile.childInFamilies.remove(familyLink);
-            family.children.remove(profileLink);
-            let result1 = this.updateProfile(profile);
-            let result2 = this.updateFamily(family);
-            if (!result1 || !result2) {
-                console.log("Error removing child from family ", result1, result2);
+            let profileRemSuccess = profile.childInFamilies.remove(familyLink);
+            let familyRemSuccess = family.children.remove(profileLink);
+            if (profileRemSuccess && familyRemSuccess) {
+                let result1 = this.updateProfile(profile);
+                let result2 = this.updateFamily(family);
+                if (!result1 || !result2) {
+                    console.log("Error removing child from family ", result1, result2);
+                }
+                return result1 && result2;
+            } else {
+                console.log("Error removing child from family ", profileRemSuccess, familyRemSuccess);
             }
-            return result1 && result2;
+            return false
         }
         return false;
     }

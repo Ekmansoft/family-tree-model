@@ -13,7 +13,7 @@ export class ItemLinkArray {
         this.relations = [];
     }
 
-    append(link : ItemLink) {
+    append(link : ItemLink) : boolean {
         if (!this.isValid()) {
             this.init();
         }
@@ -21,15 +21,18 @@ export class ItemLinkArray {
             let oldIx = this.find(link);
             if (oldIx >= 0) {
                 console.log("Error adding already present ", link.itemLink, oldIx)
-                return;
+                return false;
             }
             this.relations.push(link);
+            return true;
         }
+        return false;
     }
 
     setLinks(links : ItemLink[]) {
         this.relations = links;
     }
+
     find(link: ItemLink) : number {
         if (this.relations != undefined) {
             let profileLinkIx = -1;
@@ -44,7 +47,8 @@ export class ItemLinkArray {
         }
         return -1;
     }
-    remove(link : ItemLink) {
+
+    remove(link : ItemLink) : boolean {
         if (this.relations != undefined && this.relations.length > 0) {
             let profileLinkIx = this.find(link);
             if (profileLinkIx >= 0) {
