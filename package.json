@@ -21,6 +21,9 @@
     "type": "git",
     "url": "https://github.com/Ekmansoft/simple-family-tree-model"
   },
+  "publishConfig": {
+    "registry":"https://npm.pkg.github.com"
+  },
   "devDependencies": {
     "@types/chai": "^4.3.1",
     "@types/mocha": "^9.1.1",
