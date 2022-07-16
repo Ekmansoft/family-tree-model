@@ -202,6 +202,18 @@ export class LocalTreeBackend implements TreeBackend {
         return thisFamily;
     }
 
+    search(searchStr: string): Profile[]
+    {
+        let results: Profile[] = [];
+
+        this.profileMap.forEach((value: Profile, key: string)  => {
+            if (value.name.indexOf(searchStr) >= 0) {
+                results.push(value);
+            }
+        });
+
+        return results;
+    }
 
 
     showTreeStats() : void

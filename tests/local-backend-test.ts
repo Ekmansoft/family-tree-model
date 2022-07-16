@@ -226,4 +226,21 @@ describe('verify tree', () => {
         }
     })
 
+    it('Search for name Thelma ', () => {
+        //Arrange
+        let matches = tree.search("Thelma");
+
+        expect(matches.length).to.equal(1);
+
+        expect(matches[0].name).to.equal("Thelma Andersson");
+
+        expect(matches[0].profileId.itemLink).to.equal("P3");
+    })
+    it('Search for name Ruben', () => {
+        //Arrange
+        let matches = tree.search("Ruben");
+
+        expect(matches.length).to.equal(0);
+
+    })
 });

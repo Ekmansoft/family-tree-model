@@ -16,6 +16,8 @@ export interface TreeBackend {
     removeParentFromFamily(familyLink: FamilyLink, profileLink: ProfileLink) : boolean;
     removeChildFromFamily(familyLink: FamilyLink, profileLink: ProfileLink) : boolean;
 
+    search(searchStr: string): Profile[];
+
     findProfile(profileLink: ProfileLink) : Profile|undefined;
     findFamily(familyLink: FamilyLink) : Family|undefined;
 
