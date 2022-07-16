@@ -17,6 +17,10 @@
   ],
   "author": "Kenneth Ekman",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Ekmansoft/simple-family-tree-model"
+  },
   "devDependencies": {
     "@types/chai": "^4.3.1",
     "@types/mocha": "^9.1.1",
