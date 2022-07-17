@@ -1,6 +1,6 @@
 {
   "name": "simple-family-tree-model",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "A data model for genealogy family trees",
   "main": "index.js",
   "files": [
