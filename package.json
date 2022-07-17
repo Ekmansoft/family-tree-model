@@ -1,6 +1,6 @@
 {
   "name": "simple-family-tree-model",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "A data model for genealogy family trees",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -8,7 +8,7 @@
     "lib/**/*"
   ],
   "scripts": {
-    "tsc": "tsc -p tsconfig.json",
+    "build": "tsc -p tsconfig.json",
     "test": "mocha -r ts-node/register tests/*.ts",
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
     "lint": "eslint --ext .ts ./src/",
