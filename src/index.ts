@@ -2,4 +2,8 @@ export { Profile } from './profile';
 export { ProfileLink } from './profile-link';
 export { FamilyLink } from './family-link';
 export { Family } from './family';
+export { ItemLinkArray } from './item-link-array';
 export { TreeBackend } from './tree-backend';
+export { LocalTreeBackend } from './local-tree-backend';
+export { fetchFamilies } from './fetch-families';
+export { fetchProfiles } from './fetch-profiles';
