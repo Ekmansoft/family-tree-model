@@ -1,9 +1,16 @@
 import { ItemLinkArray } from './item-link-array';
 import { ProfileLink } from './profile-link';
 
+export enum ProfileSex {
+  Unknown,
+  Male,
+  Female,
+}
+
 export class Profile {
   constructor() {
     this.profileId = new ProfileLink('');
+    this.sex = ProfileSex.Unknown;
     this.name = '';
     this.birthDate = '';
     this.birthPlace = '';
@@ -13,6 +20,7 @@ export class Profile {
     this.childInFamilies = new ItemLinkArray();
   }
   profileId: ProfileLink;
+  sex: ProfileSex;
   name: string;
   birthDate: string;
   deathDate: string;
@@ -23,6 +31,9 @@ export class Profile {
 
   getFullName(): string {
     return this.name;
+  }
+  getSex(): ProfileSex {
+    return this.sex;
   }
   getBirthDate(): string {
     return this.birthDate;
