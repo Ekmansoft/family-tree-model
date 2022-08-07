@@ -1,22 +1,7 @@
-import {  Profile, ProfileLink, Family, FamilyLink, TreeBackend  } from '../src/index';
+import {  Profile, ProfileSex, ProfileLink, Family, FamilyLink, createProfile, TreeBackend  } from '../src/index';
 import { LocalTreeBackend } from '../src/local-tree-backend';
 import { expect } from 'chai';
 import 'mocha';
-
-function createProfile(name: string,
-    birthDate: string,
-    birthPlace: string,
-    deathDate: string,
-    deathPlace: string) : Profile {
-
-    let profile = new Profile();
-    profile.name = name;
-    profile.birthDate = birthDate;
-    profile.birthPlace = birthPlace;
-    profile.deathDate = deathDate;
-    profile.deathPlace = deathPlace;
-    return profile;
-}
 
 describe('verify tree', () => {
     let tree = new LocalTreeBackend();
@@ -27,7 +12,7 @@ describe('verify tree', () => {
     //Arrange
     it('Add first profile to tree ', () => {
         //Arrange
-        let newProfile1 = createProfile("Kalle Andersson", "19010101", "Umeå, Sweden", "19610101", "Vännäs, Sweden");
+        let newProfile1 = createProfile("Kalle Andersson", ProfileSex.Male, "19010101", "Umeå, Sweden", "19610101", "Vännäs, Sweden");
 
         expect(newProfile1.profileId.itemLink).to.equal("");
 
@@ -38,7 +23,7 @@ describe('verify tree', () => {
     })
     it('Add second profile to tree ', () => {
         //Arrange
-        let newProfile2 = createProfile("Karin Andersson", "19020202", "Umeå, Sweden", "19620202", "Vännäs, Sweden");
+        let newProfile2 = createProfile("Karin Andersson", ProfileSex.Female, "19020202", "Umeå, Sweden", "19620202", "Vännäs, Sweden");
 
         expect(newProfile2.profileId.itemLink).to.equal("");
 
@@ -193,7 +178,7 @@ describe('verify tree', () => {
 
         if (family?.familyId != undefined) {
 
-            let newProfile3 = createProfile("Thelma Andersson", "18830303", "Umeå, Sweden", "19230303", "Vännäs, Sweden");
+            let newProfile3 = createProfile("Thelma Andersson", ProfileSex.Female, "18830303", "Umeå, Sweden", "19230303", "Vännäs, Sweden");
 
             let newProfileId = tree.addNewProfile(newProfile3);
             // Act
