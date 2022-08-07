@@ -1,5 +1,6 @@
 export { Profile } from './profile';
 export { ProfileSex } from './profile';
+export { ItemLink } from './item-link';
 export { ProfileLink } from './profile-link';
 export { FamilyLink } from './family-link';
 export { Family } from './family';
