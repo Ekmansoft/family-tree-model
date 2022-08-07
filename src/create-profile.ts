@@ -1,11 +1,13 @@
-import { Profile, ProfileSex } from './index'
+import { Profile, ProfileSex } from './index';
 
-export function createProfile(name: string,
-                        sex: ProfileSex,
-                        birthDate: string,
-                        birthPlace: string,
-                        deathDate: string,
-                        deathPlace: string) {
+export function createProfile(
+  name: string,
+  sex: ProfileSex,
+  birthDate: string,
+  birthPlace: string,
+  deathDate: string,
+  deathPlace: string,
+) {
   const profile = new Profile();
   profile.name = name;
   profile.sex = sex;
