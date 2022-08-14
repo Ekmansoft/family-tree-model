@@ -201,7 +201,7 @@ describe('verify tree', () => {
         }
 
     })
-    it('Add grandparent 1 to second family ', () => {
+    it('Add grandparents to second family ', () => {
         //Arrange
         let family = tree.findFamily(new FamilyLink("F2"));
 
@@ -215,29 +215,116 @@ describe('verify tree', () => {
             // Act
             expect(newProfileId?.itemLink).to.equal("P5");
 
-            let result = tree.addParentToFamily(new FamilyLink("F2"), new ProfileLink("P3"));
+            let result = tree.addParentToFamily(new FamilyLink("F2"), new ProfileLink("P5"));
 
             expect(result).to.equal(true);
+
+            let newProfile4 = createProfile("Harry Andersson", ProfileSex.Female, "18830303", "Umeå, Sweden", "19230303", "Vännäs, Sweden");
+
+            let newProfile4Id = tree.addNewProfile(newProfile4);
+            // Act
+            expect(newProfile4Id?.itemLink).to.equal("P6");
+
+            let result2 = tree.addParentToFamily(new FamilyLink("F2"), new ProfileLink("P6"));
+
+            expect(result2).to.equal(true);
 
             let family2 = tree.findFamily(new FamilyLink("F2"));
 
             expect(family2).to.not.equal(undefined);
 
-            let profile2 = tree.findProfile(new ProfileLink("P3"));
+            let profile2 = tree.findProfile(new ProfileLink("P5"));
 
             expect(profile2).to.not.equal(undefined);
 
             if (family2 != undefined) {
 
-                expect(family2.parents.getLinks().length).to.equal(1);
+                expect(family2.parents.getLinks().length).to.equal(2);
 
-                expect(family2.parents.getLinks()[0].itemLink).to.equal("P3");
+                expect(family2.parents.getLinks()[0].itemLink).to.equal("P5");
             }
             if (profile2 != undefined) {
 
                 expect(profile2.parentInFamilies.getLinks().length).to.equal(1);
 
                 expect(profile2.parentInFamilies.getLinks()[0].itemLink).to.equal("F2");
+            }
+        }
+    })
+
+    it('Add third family to tree and set P2 as a child ', () => {
+        //Arrange
+        let family = new Family();
+
+        expect(family.familyId.itemLink).to.equal("");
+
+        let newFamilyId = tree.addNewFamily(family);
+
+        expect(newFamilyId?.itemLink).to.equal("F3");
+
+        let result = tree.addChildToFamily(new FamilyLink("F3"), new ProfileLink("P2"));
+
+        expect(result).to.equal(true);
+
+        let profile1 = tree.findProfile(new ProfileLink("P2"));
+
+        expect(profile1).to.not.equal(undefined);
+
+        if (profile1 != undefined) {
+
+            expect(profile1.childInFamilies.getLinks().length).to.equal(1);
+
+            expect(profile1.childInFamilies.getLinks()[0].itemLink).to.equal("F3");
+        }
+
+    })
+    it('Add grandparents to third family ', () => {
+        //Arrange
+        let family = tree.findFamily(new FamilyLink("F2"));
+
+        expect(family?.familyId.itemLink).to.equal("F2");
+
+        if (family?.familyId != undefined) {
+
+            let newProfile3 = createProfile("Agda Petersson", ProfileSex.Female, "18830303", "Umeå, Sweden", "19230303", "Vännäs, Sweden");
+
+            let newProfileId = tree.addNewProfile(newProfile3);
+            // Act
+            expect(newProfileId?.itemLink).to.equal("P7");
+
+            let result = tree.addParentToFamily(new FamilyLink("F3"), new ProfileLink("P7"));
+
+            expect(result).to.equal(true);
+
+            let newProfile4 = createProfile("Rutger Hauer", ProfileSex.Female, "18830303", "Umeå, Sweden", "19230303", "Vännäs, Sweden");
+
+            let newProfile4Id = tree.addNewProfile(newProfile4);
+            // Act
+            expect(newProfile4Id?.itemLink).to.equal("P8");
+
+            let result2 = tree.addParentToFamily(new FamilyLink("F3"), new ProfileLink("P8"));
+
+            expect(result2).to.equal(true);
+
+            let family2 = tree.findFamily(new FamilyLink("F3"));
+
+            expect(family2).to.not.equal(undefined);
+
+            let profile2 = tree.findProfile(new ProfileLink("P8"));
+
+            expect(profile2).to.not.equal(undefined);
+
+            if (family2 != undefined) {
+
+                expect(family2.parents.getLinks().length).to.equal(2);
+
+                expect(family2.parents.getLinks()[0].itemLink).to.equal("P7");
+            }
+            if (profile2 != undefined) {
+
+                expect(profile2.parentInFamilies.getLinks().length).to.equal(1);
+
+                expect(profile2.parentInFamilies.getLinks()[0].itemLink).to.equal("F3");
             }
         }
     })
