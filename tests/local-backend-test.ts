@@ -151,6 +151,29 @@ describe('verify tree', () => {
                 expect(profile2.parentInFamilies.getLinks()[0].itemLink).to.equal("F1");
             }
         }
+
+    })
+    it('Add children to family  ', () => {
+        let newProfile1 = createProfile("Child1 Andersson", ProfileSex.Male, "19010101", "Umeå, Sweden", "19610101", "Vännäs, Sweden");
+
+        let newProfileId = tree.addNewProfile(newProfile1);
+        // Act
+        expect(newProfileId?.itemLink).to.equal("P3");
+
+        let newProfile2 = createProfile("Child2 Andersson", ProfileSex.Female, "19010101", "Umeå, Sweden", "19610101", "Vännäs, Sweden");
+
+        let newProfileId2 = tree.addNewProfile(newProfile2);
+        // Act
+        expect(newProfileId2?.itemLink).to.equal("P4");
+
+        let result1 = tree.addChildToFamily(new FamilyLink("F1"), new ProfileLink("P3"));
+
+        expect(result1).to.equal(true);
+
+        let result2 = tree.addChildToFamily(new FamilyLink("F1"), new ProfileLink("P4"));
+
+        expect(result2).to.equal(true);
+
     })
     it('Add second family to tree and set P1 as a child ', () => {
         //Arrange
@@ -190,7 +213,7 @@ describe('verify tree', () => {
 
             let newProfileId = tree.addNewProfile(newProfile3);
             // Act
-            expect(newProfileId?.itemLink).to.equal("P3");
+            expect(newProfileId?.itemLink).to.equal("P5");
 
             let result = tree.addParentToFamily(new FamilyLink("F2"), new ProfileLink("P3"));
 
@@ -219,21 +242,32 @@ describe('verify tree', () => {
         }
     })
 
-    it('Find relation between families ', () => {
+    it('Find relations ', () => {
         //Arrange
-        let relation = findRelation(tree, new FamilyLink("F1"), new FamilyLink("F2"));
+        let relation = findRelation(tree, new FamilyLink("F1"), new ProfileLink("P3"));
 
         expect(relation).to.equal(Relation.Child);
 
-        let relation2 = findRelation(tree, new FamilyLink("F2"), new FamilyLink("F1"));
+        let relation2 = findRelation(tree, new FamilyLink("F1"), new ProfileLink("P4"));
 
-        expect(relation2).to.equal(Relation.Parent);
-        let relation3 = findRelation(tree, new FamilyLink("F1"), new FamilyLink("F1"));
+        expect(relation2).to.equal(Relation.Child);
 
-        expect(relation3).to.equal(Relation.Same);
+        let relation3 = findRelation(tree, new FamilyLink("F1"), new ProfileLink("P1"));
+
+        expect(relation3).to.equal(Relation.Parent);
+
+        let relation4 = findRelation(tree, new FamilyLink("F1"), new ProfileLink("P2"));
+
+        expect(relation4).to.equal(Relation.Parent);
+
+        let relation5 = findRelation(tree, new FamilyLink("F2"), new ProfileLink("P1"));
+
+        expect(relation5).to.equal(Relation.Child);
+
+        let relation6 = findRelation(tree, new FamilyLink("F2"), new ProfileLink("P4"));
+
+        expect(relation6).to.equal(Relation.None);
     })
-
-
 
     it('Search for name Thelma ', () => {
         //Arrange
@@ -243,7 +277,7 @@ describe('verify tree', () => {
 
         expect(matches[0].name).to.equal("Thelma Andersson");
 
-        expect(matches[0].profileId.itemLink).to.equal("P3");
+        expect(matches[0].profileId.itemLink).to.equal("P5");
     })
     it('Search for name Ruben', () => {
         //Arrange

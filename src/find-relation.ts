@@ -4,34 +4,25 @@ import { TreeBackend } from './tree-backend';
 
 export enum Relation {
   None,
-  Same,
   Parent,
   Child,
 }
 
-export function findRelation(tree: TreeBackend, family1: FamilyLink, family2: FamilyLink): Relation {
-  if (family1.itemLink == family2.itemLink) {
-    return Relation.Same;
-  }
-  const fam1 = tree.findFamily(family1);
-  const fam2 = tree.findFamily(family2);
-  if (fam1 != undefined && fam2 != undefined) {
-    for (const person1 of fam1.children.getLinks()) {
-      for (const person2 of fam2.parents.getLinks()) {
-        if (person1 == person2) {
-          return Relation.Parent;
-        }
+export function findRelation(tree: TreeBackend, family: FamilyLink, profile: ProfileLink): Relation {
+  const fam1 = tree.findFamily(family);
+  if (fam1 != undefined) {
+    for (const fam1profile of fam1.children.getLinks()) {
+      if (fam1profile.itemLink == profile.itemLink) {
+        return Relation.Child;
       }
     }
-    for (const person1 of fam1.parents.getLinks()) {
-      for (const person2 of fam2.children.getLinks()) {
-        if (person1 == person2) {
-          return Relation.Child;
-        }
+    for (const fam1profile of fam1.parents.getLinks()) {
+      if (fam1profile.itemLink == profile.itemLink) {
+        return Relation.Parent;
       }
     }
   } else {
-    console.log('Error finding family 1 or 2', family1, family2);
+    console.log('Error finding family', family);
   }
   return Relation.None;
 }
