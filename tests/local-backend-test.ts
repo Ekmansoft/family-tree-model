@@ -1,4 +1,12 @@
-import {  Profile, ProfileSex, ProfileLink, Family, FamilyLink, createProfile, TreeBackend  } from '../src/index';
+import {  Profile,
+        ProfileSex,
+        ProfileLink,
+        Family,
+        FamilyLink,
+        createProfile,
+        TreeBackend,
+        Relation,
+        findRelation  } from '../src/index';
 import { LocalTreeBackend } from '../src/local-tree-backend';
 import { expect } from 'chai';
 import 'mocha';
@@ -210,6 +218,22 @@ describe('verify tree', () => {
             }
         }
     })
+
+    it('Find relation between families ', () => {
+        //Arrange
+        let relation = findRelation(tree, new FamilyLink("F1"), new FamilyLink("F2"));
+
+        expect(relation).to.equal(Relation.Child);
+
+        let relation2 = findRelation(tree, new FamilyLink("F2"), new FamilyLink("F1"));
+
+        expect(relation2).to.equal(Relation.Parent);
+        let relation3 = findRelation(tree, new FamilyLink("F1"), new FamilyLink("F1"));
+
+        expect(relation3).to.equal(Relation.Same);
+    })
+
+
 
     it('Search for name Thelma ', () => {
         //Arrange

@@ -6,6 +6,7 @@ export { FamilyLink } from './family-link';
 export { Family } from './family';
 export { ItemLinkArray } from './item-link-array';
 export { TreeBackend } from './tree-backend';
+export { Relation, findRelation } from './find-relation';
 export { LocalTreeBackend } from './local-tree-backend';
 export { createProfile } from './create-profile';
 export { fetchFamilies } from './fetch-families';
