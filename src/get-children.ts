@@ -1,6 +1,5 @@
 import { FamilyLink } from './family-link';
 import { ProfileLink } from './profile-link';
-import { Profile } from './profile';
 import { TreeBackend } from './tree-backend';
 
 export function getChildren(tree: TreeBackend, profileId: ProfileLink): ProfileLink[] {
