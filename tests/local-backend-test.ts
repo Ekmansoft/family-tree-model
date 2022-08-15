@@ -4,6 +4,10 @@ import {  Profile,
         Family,
         FamilyLink,
         createProfile,
+        getPartners,
+        getParents,
+        getChildren,
+        getSiblings,
         TreeBackend,
         Relation,
         findRelation  } from '../src/index';
@@ -371,6 +375,35 @@ describe('verify tree', () => {
         let matches = tree.search("Ruben");
 
         expect(matches.length).to.equal(0);
+
+    })
+    it('Check partners', () => {
+        //Arrange
+        let spouses = getPartners(tree, new ProfileLink("P1"));
+
+        expect(spouses.length).to.equal(1);
+        expect(spouses[0].itemLink).to.equal("P2");
+
+    })
+    it('Check parents', () => {
+        //Arrange
+        let parents = getParents(tree, new ProfileLink("P1"));
+        expect(parents.length).to.equal(2);
+        expect(parents[0].itemLink).to.equal("P5");
+
+    })
+    it('Check children', () => {
+        //Arrange
+        let children = getChildren(tree, new ProfileLink("P1"));
+        expect(children.length).to.equal(2);
+        expect(children[0].itemLink).to.equal("P3");
+
+    })
+    it('Check siblings', () => {
+        //Arrange
+        let siblings = getSiblings(tree, new ProfileLink("P3"));
+        expect(siblings.length).to.equal(1);
+        expect(siblings[0].itemLink).to.equal("P4");
 
     })
 });
