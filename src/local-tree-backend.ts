@@ -212,15 +212,14 @@ export class LocalTreeBackend implements TreeBackend {
     return results;
   }
 
-  getRootProfile(): ProfileLink|undefined
-  {
+  getRootProfile(): ProfileLink | undefined {
     return this.rootProfile;
   }
 
   backendName: string;
   nextProfileId: number;
   nextFamilyId: number;
-  rootProfile: ProfileLink|undefined;
+  rootProfile: ProfileLink | undefined;
   profileMap: Map<string, Profile>;
   familyMap: Map<string, Family>;
 }
