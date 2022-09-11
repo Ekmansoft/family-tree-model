@@ -20,4 +20,6 @@ export interface TreeBackend {
 
   findProfile(profileLink: ProfileLink): Profile | undefined;
   findFamily(familyLink: FamilyLink): Family | undefined;
+
+  getRootProfile(): ProfileLink | undefined;
 }

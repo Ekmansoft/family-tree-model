@@ -33,6 +33,13 @@ describe('verify tree', () => {
         // Act
         expect(newProfileId?.itemLink).to.equal("P1");
     })
+    it('Check root profile ', () => {
+        //Arrange
+
+        let rootProfileId = tree.getRootProfile();
+        // Act
+        expect(rootProfileId?.itemLink).to.equal("P1");
+    })
     it('Add second profile to tree ', () => {
         //Arrange
         let newProfile2 = createProfile("Karin Andersson", ProfileSex.Female, "19020202", "Umeå, Sweden", "19620202", "Vännäs, Sweden");
@@ -46,6 +53,13 @@ describe('verify tree', () => {
 
         //tree.showTreeStats();
 
+    })
+    it('Check root profile again ', () => {
+        //Arrange
+
+        let rootProfileId = tree.getRootProfile();
+        // Act
+        expect(rootProfileId?.itemLink).to.equal("P1");
     })
     it('Find first profile ', () => {
         profile1 = tree.findProfile(new ProfileLink("P1"));

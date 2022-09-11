@@ -97,6 +97,9 @@ export class LocalTreeBackend implements TreeBackend {
       }
     }
     this.profileMap.set(profile.profileId.itemLink, profile);
+    if (this.rootProfile === undefined) {
+      this.rootProfile = profile.profileId;
+    }
     return profile.profileId;
   }
 
@@ -209,9 +212,15 @@ export class LocalTreeBackend implements TreeBackend {
     return results;
   }
 
+  getRootProfile(): ProfileLink|undefined
+  {
+    return this.rootProfile;
+  }
+
   backendName: string;
   nextProfileId: number;
   nextFamilyId: number;
+  rootProfile: ProfileLink|undefined;
   profileMap: Map<string, Profile>;
   familyMap: Map<string, Family>;
 }
