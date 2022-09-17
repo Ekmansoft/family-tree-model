@@ -66,7 +66,7 @@ describe('verify tree', () => {
 
         // Assert
         expect(profile1?.profileId.itemLink).to.equal("P1");
-        expect(profile1?.getFullName()).to.equal("Kalle Andersson");
+        expect(profile1?.name).to.equal("Kalle Andersson");
 
     })
     it('Find second profile ', () => {
@@ -74,7 +74,7 @@ describe('verify tree', () => {
 
         // Assert
         expect(profile2?.profileId.itemLink).to.equal("P2");
-        expect(profile2?.getFullName()).to.equal("Karin Andersson");
+        expect(profile2?.name).to.equal("Karin Andersson");
 
     })
     it('Find invalid profile ', () => {

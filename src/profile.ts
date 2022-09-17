@@ -28,17 +28,4 @@ export class Profile {
   deathPlace: string;
   parentInFamilies: ItemLinkArray;
   childInFamilies: ItemLinkArray;
-
-  getFullName(): string {
-    return this.name;
-  }
-  getSex(): ProfileSex {
-    return this.sex;
-  }
-  getBirthDate(): string {
-    return this.birthDate;
-  }
-  getDeathDate(): string {
-    return this.deathDate;
-  }
 }
