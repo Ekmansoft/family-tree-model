@@ -121,10 +121,16 @@ export class LocalTreeBackend implements TreeBackend {
       }
       return result1 && result2;
     } else {
-      console.log('Error 1 adding profile to family ', profile.profileId, family.familyId, profilAppendSuccess, familyAppendSuccess);
+      console.log(
+        'Error 1 adding profile to family ',
+        profile.profileId,
+        family.familyId,
+        profilAppendSuccess,
+        familyAppendSuccess,
+      );
       console.log(profileLinkArray);
       console.log(familyLinkArray);
-  }
+    }
     return false;
   }
 
