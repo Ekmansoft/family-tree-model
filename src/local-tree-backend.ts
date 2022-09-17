@@ -115,12 +115,16 @@ export class LocalTreeBackend implements TreeBackend {
       const result1 = this.updateProfile(profile);
       const result2 = this.updateFamily(family);
       if (!result1 || !result2) {
-        console.log('Error removing parent from family ', result1, result2);
+        console.log('Error 2 adding profile to family ', profile.profileId, family.familyId, result1, result2);
+        console.log(profileLinkArray);
+        console.log(familyLinkArray);
       }
       return result1 && result2;
     } else {
-      console.log('Error removing parent from family ', profilAppendSuccess, familyAppendSuccess);
-    }
+      console.log('Error 1 adding profile to family ', profile.profileId, family.familyId, profilAppendSuccess, familyAppendSuccess);
+      console.log(profileLinkArray);
+      console.log(familyLinkArray);
+  }
     return false;
   }
 
